@@ -100,7 +100,8 @@ Presenter - презентер содержит основную логику п
 
 Данные
 -
-<img src="./public/interfaces.svg" alt="Диаграмма интерфейсов" width="600">
+<div style="width: 100%; display: flex; justify-content: center;"><img src="./public/interfaces.svg" alt="Диаграмма интерфейсов" width="300"></div>
+<div style="height: 10px;"></div>
 
 В приложении используются две сущности, которые описывают данные — товар и покупатель. Их можно описать такими интерфейсами:
 - `IProduct` (Товар) - предназначен для описания данных о товарах, имеющихся на сайте.
