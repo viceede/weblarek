@@ -18,6 +18,14 @@ export class MainCatalog {
     return this.products;
   }
 
+  getProductById(id: string): IProduct | undefined {
+    const product = this.products.find((product: IProduct) : boolean => {
+      return product.id === id;
+    })
+
+    return product;
+  }
+
   saveSelectableProduct(selectedProduct: IProduct): void {
     this.selectedProduct = selectedProduct;
   }
