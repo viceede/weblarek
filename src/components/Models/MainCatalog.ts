@@ -3,11 +3,11 @@ import { IProduct } from '../../types/index.ts';
 
 export class MainCatalog {
   private products: IProduct[];
-  private selectedProduct: IProduct | undefined;
+  private selectedProduct: IProduct | null;
 
   constructor() {
     this.products = [];
-    this.selectedProduct = undefined;
+    this.selectedProduct = null;
   }
 
   saveProducts(products: IProduct[]): void{
@@ -30,7 +30,7 @@ export class MainCatalog {
     this.selectedProduct = selectedProduct;
   }
 
-  getSelectableProduct(): IProduct | undefined {
+  getSelectableProduct(): IProduct | null {
     return this.selectedProduct;
   }
 }
