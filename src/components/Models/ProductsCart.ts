@@ -8,7 +8,7 @@ export class ProductsCart {
 	}
 
 	getCart(): IProduct[] {
-		return this.cart
+		return [...this.cart]
 	}
 
 	saveProduct(product: IProduct): void {
@@ -16,14 +16,15 @@ export class ProductsCart {
 	}
 
 	deleteProduct(product: IProduct): void {
-		const index = this.cart.indexOf(product)
-		if (index !== -1) {
-			this.cart.splice(index, 1)
-		}
+		const newCart = this.cart.filter((i) => {
+			return i !== product
+		})
+
+		this.cart = newCart
 	}
 
 	clearCart(): void {
-		this.cart.splice(0, this.cart.length)
+		this.cart.length = 0
 	}
 
 	getFullPrice(): number {
@@ -37,11 +38,11 @@ export class ProductsCart {
 		return fullPrice
 	}
 
-	countProducts(): number {
+	productsQuantity(): number {
 		return this.cart.length
 	}
 
-	checkProduct(id: string): boolean {
+	checkProductById(id: string): boolean {
 		return this.cart.some(p => p.id === id)
 	}
 }
