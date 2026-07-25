@@ -15,7 +15,7 @@ export class MainCatalog {
   }
 
   getProducts(): IProduct[] {
-    return this.products;
+    return [...this.products];
   }
 
   getProductById(id: string): IProduct | undefined {
