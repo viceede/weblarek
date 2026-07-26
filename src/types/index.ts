@@ -21,3 +21,18 @@ export interface ICustomer {
     email: string;
     phone: string;
 };
+
+export interface IProductsResponse {
+    total: number;
+    items: IProduct[];
+}
+
+export interface IOrder extends ICustomer{
+    total: number;
+    items: string[];
+}
+
+export interface IOrderResponse { 
+    id: string;
+    total: number;
+}

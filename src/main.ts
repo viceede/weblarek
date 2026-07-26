@@ -1,9 +1,11 @@
 import './scss/styles.scss';
-import {Customer} from "./components/Models/Customer.ts";
-import {MainCatalog} from "./components/Models/MainCatalog.ts";
-import {ProductsCart} from "./components/Models/ProductsCart.ts";
+import {Customer} from "./components/models/Customer.ts";
+import {MainCatalog} from "./components/models/MainCatalog.ts";
+import {ProductsCart} from "./components/models/ProductsCart.ts";
 import { apiProducts } from './utils/data.ts'
-
+import { Api } from './components/base/Api.ts';
+import { AppApi } from "./components/communication/AppApi.ts";
+import { API_URL } from './utils/constants.ts';
 
 //Проверка работы модели данных каталога на главной
 const productsModel = new MainCatalog();
@@ -92,3 +94,15 @@ console.log(
   'Проверка валидации (заполнены все поля):\n',
   customerModel.validateData()
 );
+
+//получение массива товаров с сервера
+const baseApi = new Api(API_URL);
+const appApi = new AppApi(baseApi);
+
+appApi.getProducts().then((data) => {
+  console.log('Ответ от сервера: ', data);
+  productsModel.saveProducts(data.items);
+})
+.catch((err) => {
+  console.log('Ошибка при загрузке каталога с сервера: ', err);
+})
