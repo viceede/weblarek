@@ -171,21 +171,21 @@ Presenter - презентер содержит основную логику п
     - `getProducts(): Promise<IProductListResponse>` — выполняет `GET`-запрос на эндпоинт `/product/`. Возвращает объект с общим количеством товаров (`total`) и массивом объектов товаров (`items`).
     - `createOrder(order: IOrderForm): Promise<IOrderResult>` — выполняет `POST`-запрос на эндпоинт `/order/`, передавая данные о заказе (способы оплаты, контакты, итоговая сумма и список ID товаров). Возвращает объект с ID выполненного заказа и итоговой списанной суммой.
 
-- Интерфейсы:
+  - Интерфейсы:
 
-	```typescript
-	export interface IProductsResponse {
-			total: number;
-			items: IProduct[];
-	}
+  	```typescript
+  	export interface IProductsResponse {
+  			total: number;
+  			items: IProduct[];
+  	}
 
-	export interface IOrder extends ICustomer{
-			total: number;
-			items: string[];
-	}
+  	export interface IOrder extends ICustomer{
+  			total: number;
+  			items: string[];
+  	}
 
-	export interface IOrderResponse { 
-			id: string;
-			total: number;
-	}
-	```
+  	export interface IOrderResponse { 
+  			id: string;
+  			total: number;
+  	}
+  	```
