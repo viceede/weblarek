@@ -1,7 +1,7 @@
 import './scss/styles.scss';
-import {Customer} from "./components/models/Customer.ts";
-import {MainCatalog} from "./components/models/MainCatalog.ts";
-import {ProductsCart} from "./components/models/ProductsCart.ts";
+import {Customer} from "./components/Models/Customer.ts";
+import {MainCatalog} from "./components/Models/MainCatalog.ts";
+import {ProductsCart} from "./components/Models/ProductsCart.ts";
 import { apiProducts } from './utils/data.ts'
 import { Api } from './components/base/Api.ts';
 import { AppApi } from "./components/communication/AppApi.ts";
