@@ -8,7 +8,7 @@ export class Customer {
   private phone: ICustomer["phone"];
 
   constructor() {
-    this.payment = '';
+    this.payment = null;
     this.address = '';
     this.email = '';
     this.phone = '';
@@ -31,7 +31,7 @@ export class Customer {
     }
 
   clearData(): void {
-    this.payment = ''
+    this.payment = null
     this.address = ''
     this.email = ''
     this.phone = ''

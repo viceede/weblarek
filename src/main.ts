@@ -102,6 +102,7 @@ const appApi = new AppApi(baseApi);
 appApi.getProducts().then((data) => {
   console.log('Ответ от сервера: ', data);
   productsModel.saveProducts(data.items);
+  console.log('Каталог товаров, сохранённый в модель:\n', productsModel.getProducts());
 })
 .catch((err) => {
   console.log('Ошибка при загрузке каталога с сервера: ', err);
