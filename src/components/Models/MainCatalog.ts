@@ -30,7 +30,7 @@ export class MainCatalog {
     this.selectedProduct = selectedProduct;
   }
 
-  getSelectableProduct(): IProduct | null {
+  getSelectedProduct(): IProduct | null {
     return this.selectedProduct;
   }
 }

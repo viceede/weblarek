@@ -16,7 +16,7 @@ console.log('Товар, полученный по ID из массива тов
 
 const selectedProduct = apiProducts.items[1];
 productsModel.saveSelectedProduct(selectedProduct);
-console.log('Товар, полученный для подробного отображения:\n', productsModel.getSelectableProduct());
+console.log('Товар, полученный для подробного отображения:\n', productsModel.getSelectedProduct());
 
 //Проверка работы модели данных корзины с товарами
 const cartModel = new ProductsCart();
