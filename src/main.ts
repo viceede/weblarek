@@ -15,7 +15,7 @@ console.log('Массив товаров из каталога:\n', productsMode
 console.log('Товар, полученный по ID из массива товаров:\n', productsModel.getProductById(apiProducts.items[0].id));
 
 const selectedProduct = apiProducts.items[1];
-productsModel.saveSelectableProduct(selectedProduct);
+productsModel.saveSelectedProduct(selectedProduct);
 console.log('Товар, полученный для подробного отображения:\n', productsModel.getSelectableProduct());
 
 //Проверка работы модели данных корзины с товарами
@@ -31,11 +31,11 @@ console.log('Массив товаров в корзине после удале
 cartModel.clearCart();
 console.log('Массив товаров в корзине после очистки:\n', cartModel.getCart());
 
-apiProducts.items.forEach((i) => { // для проверки оставшихся методов добавляем все товары в корзину
-  cartModel.saveProduct(i)
+apiProducts.items.forEach((product) => { // для проверки оставшихся методов добавляем все товары в корзину
+  cartModel.saveProduct(product)
 })
 console.log('Получение суммы стоимости всех товаров в корзине:\n', cartModel.getFullPrice());
-console.log('Кол-во товаров в корзине:\n', cartModel.productsQuantity());
+console.log('Кол-во товаров в корзине:\n', cartModel.getProductsQuantity());
 
 const verifiableProductId = apiProducts.items[3].id;
 console.log('Проверка наличия товара в корзине по ID:\n', cartModel.checkProductById(verifiableProductId));

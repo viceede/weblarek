@@ -8,10 +8,10 @@ export class AppApi {
   }
 
   getProducts(): Promise<IProductsResponse> {
-    return this.api.get<IProductsResponse>('/product/').then((data) => data);
+    return this.api.get<IProductsResponse>('/product/');
   }
 
   createOrder(order: IOrder): Promise<IOrderResponse> {
-    return this.api.post<IOrderResponse>('/order/', order).then((data) => data);
+    return this.api.post<IOrderResponse>('/order/', order);
   }
 }

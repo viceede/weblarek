@@ -1,4 +1,5 @@
 import { ICustomer } from '../../types/index.ts';
+import { TCustomerErrors } from '../../types/index.ts';
 
 export class Customer {
   private payment: ICustomer["payment"];
@@ -13,8 +14,11 @@ export class Customer {
     this.phone = '';
   }
 
-  saveData(customers: Partial<ICustomer>): void {
-    Object.assign(this, customers);
+  saveData(customer: Partial<ICustomer>): void {
+    if (customer.payment !== undefined) this.payment = customer.payment;
+    if (customer.address !== undefined) this.address = customer.address;
+    if (customer.email !== undefined) this.email = customer.email;
+    if (customer.phone !== undefined) this.phone = customer.phone;
   }
 
   getData(): ICustomer{
@@ -33,8 +37,8 @@ export class Customer {
     this.phone = ''
   }
 
-  validateData(): { payment?: string; address?: string; email?: string; phone?: string } {
-    const errors: { payment?: string; address?: string; email?: string; phone?: string } = {};
+  validateData(): TCustomerErrors {
+    const errors: TCustomerErrors = {};
 
     if(!this.payment || this.payment.trim() === ''){
       errors.payment = 'Укажите способ оплаты';

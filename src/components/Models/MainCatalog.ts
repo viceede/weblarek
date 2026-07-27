@@ -26,7 +26,7 @@ export class MainCatalog {
     return product;
   }
 
-  saveSelectableProduct(selectedProduct: IProduct): void {
+  saveSelectedProduct(selectedProduct: IProduct): void {
     this.selectedProduct = selectedProduct;
   }
 
