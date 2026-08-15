@@ -37,3 +37,11 @@ export interface IOrderResponse {
     id: string;
     total: number;
 }
+
+export interface ICardActions {
+    onClick: () => void;
+}
+
+export interface IFormActions {
+    onSubmit: () => void;
+}
