@@ -1,5 +1,6 @@
 import { ICustomer } from '../../types/index.ts';
 import { TCustomerErrors } from '../../types/index.ts';
+import { IEvents } from '../base/Events.ts';
 
 export class Customer {
   private payment: ICustomer["payment"];
@@ -7,7 +8,7 @@ export class Customer {
   private email: ICustomer["email"];
   private phone: ICustomer["phone"];
 
-  constructor() {
+  constructor(protected events: IEvents) {
     this.payment = null;
     this.address = '';
     this.email = '';
@@ -19,6 +20,8 @@ export class Customer {
     if (customer.address !== undefined) this.address = customer.address;
     if (customer.email !== undefined) this.email = customer.email;
     if (customer.phone !== undefined) this.phone = customer.phone;
+
+    this.events.emit('customer:changed');
   }
 
   getData(): ICustomer{
@@ -35,6 +38,8 @@ export class Customer {
     this.address = ''
     this.email = ''
     this.phone = ''
+
+    this.events.emit('customer:changed');
   }
 
   validateData(): TCustomerErrors {

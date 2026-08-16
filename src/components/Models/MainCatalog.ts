@@ -1,17 +1,19 @@
 
 import { IProduct } from '../../types/index.ts';
+import { IEvents } from '../base/Events.ts';
 
 export class MainCatalog {
   private products: IProduct[];
   private selectedProduct: IProduct | null;
 
-  constructor() {
+  constructor(protected events: IEvents) {
     this.products = [];
     this.selectedProduct = null;
   }
 
   saveProducts(products: IProduct[]): void{
     this.products = products;
+    this.events.emit('catalog:changed')
   }
 
   getProducts(): IProduct[] {
@@ -28,6 +30,7 @@ export class MainCatalog {
 
   saveSelectedProduct(selectedProduct: IProduct): void {
     this.selectedProduct = selectedProduct;
+    this.events.emit('preview:changed')
   }
 
   getSelectedProduct(): IProduct | null {
