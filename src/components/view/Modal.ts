@@ -12,8 +12,8 @@ export class Modal extends Component<IModal> {
 
   constructor(container: HTMLElement, private events: IEvents) {
     super(container);
-    this.closeButton = ensureElement<HTMLButtonElement>('modal__close', this.container);
-    this.modalContent = ensureElement<HTMLElement>('modal__content', this.container);
+    this.closeButton = ensureElement<HTMLButtonElement>('.modal__close', this.container);
+    this.modalContent = ensureElement<HTMLElement>('.modal__content', this.container);
 
     this.closeButton.addEventListener('click', () => {
       this.events.emit('modal:close');

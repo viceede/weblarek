@@ -8,7 +8,14 @@ export class AppApi {
   }
 
   getProducts(): Promise<IProductsResponse> {
-    return this.api.get<IProductsResponse>('/product/');
+    const data = this.api.get<IProductsResponse>('/product/')
+    return data.then((data) => ({
+      ...data,
+      items: data.items.map((item) => ({
+        ...item,
+        image: item.image.replace(/\.svg$/i, '.png'),
+      })),
+    }));
   }
 
   createOrder(order: IOrder): Promise<IOrderResponse> {

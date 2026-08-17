@@ -7,6 +7,8 @@ interface ICardPreview {
   category: string;
   image: string;
   description: string;
+  buttonText: string,
+  buttonDisabled: boolean
 }
 
 type CategoryKey = keyof typeof categoryMap;
@@ -14,20 +16,18 @@ type CategoryKey = keyof typeof categoryMap;
 export class CardPreview extends Card<ICardPreview> {
   protected categoryElement: HTMLSpanElement;
   protected imageElement: HTMLImageElement;
+  protected descriptionElement: HTMLParagraphElement;
   protected buyButton: HTMLButtonElement;
 
   constructor(container: HTMLElement, actions?: ICardActions) {
     super(container)
     this.categoryElement = ensureElement<HTMLSpanElement>('.card__category', this.container);
     this.imageElement = ensureElement<HTMLImageElement>('.card__image', this.container);
+    this.descriptionElement = ensureElement<HTMLParagraphElement>('.card__text', this.container);
     this.buyButton = ensureElement<HTMLButtonElement>('.card__button', this.container);
 
     if (actions?.onClick) {
       this.buyButton.addEventListener('click', actions.onClick);
-    }
-    if (this.price === 0) {
-      this.buyButton.textContent = 'Недоступно';
-      this.buyButton.disabled = true;
     }
   }
 
@@ -50,5 +50,13 @@ export class CardPreview extends Card<ICardPreview> {
     if(this.buyButton) {
       this.buyButton.textContent = value;
     }
+  }
+
+  set description(value: string) {
+    this.descriptionElement.textContent = value;
+  }
+
+  set buttonDisabled(value: boolean) {
+    this.buyButton.disabled = value;
   }
 }

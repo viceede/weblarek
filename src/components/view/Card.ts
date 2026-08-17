@@ -3,7 +3,7 @@ import { ensureElement } from '../../utils/utils';
 
 interface ICard {
   title: string;
-  price: number;
+  price: number | null;
 }
 
 export class Card<T> extends Component<ICard & T> {
@@ -21,6 +21,6 @@ export class Card<T> extends Component<ICard & T> {
   }
 
   set price(value: number) {
-    this.cardPrice.textContent = `${String(value)} синапсов`; 
+    this.cardPrice.textContent = value ? `${String(value)} синапсов` : `Бесценно`;
   }
 }
