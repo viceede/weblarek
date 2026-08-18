@@ -21,7 +21,7 @@ export class Customer {
     if (customer.email !== undefined) this.email = customer.email;
     if (customer.phone !== undefined) this.phone = customer.phone;
 
-    this.events.emit('customer:changed');
+    this.events.emit('customer:changed', customer);
   }
 
   getData(): ICustomer{
@@ -46,19 +46,19 @@ export class Customer {
     const errors: TCustomerErrors = {};
 
     if(!this.payment || this.payment.trim() === ''){
-      errors.payment = 'Укажите способ оплаты';
+      errors.payment = 'способ оплаты';
     }
 
     if (!this.address || this.address.trim() === '') {
-      errors.address = 'Укажите адрес доставки';
+      errors.address = 'адрес доставки';
     }
 
     if (!this.email || this.email.trim() === ''){
-      errors.email = 'Укажите E-mail';
+      errors.email = 'E-mail';
     }
 
     if(!this.phone || this.phone.trim() === '') {
-      errors.phone = 'Укажите номер телефона'
+      errors.phone = 'номер телефона'
     }
 
     return errors;

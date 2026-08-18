@@ -24,14 +24,12 @@ import { Header } from './components/view/Header.ts';
 import { Modal } from './components/view/Modal.ts';
 import { Success } from './components/view/Success.ts';
 import { Basket } from './components/view/Basket.ts';
-import { Card } from './components/view/Card.ts';
 import { CardBasket } from './components/view/CardBasket.ts';
 import { CardCatalog } from './components/view/CardCatalog.ts';
 import { CardPreview } from './components/view/CardPreview.ts';
-import { Form } from './components/view/Form.ts';
 import { ContactsForm } from './components/view/ContactsForm.ts';
 import { OrderForm } from './components/view/OrderForm.ts';
-import { ICustomer } from './types/index.ts'
+import { ICustomer, IProduct } from './types/index.ts'
 
 //Инициализация брокера событий
 const events = new EventEmitter();
@@ -67,10 +65,21 @@ const basket = new Basket(cloneTemplate(basketTemplate), events);
 const modal = new Modal(modalContainer, events);
 const success = new Success(events, successContainer);
 const cardPreview = new CardPreview(cloneTemplate(cardPreviewTemplate), {onClick: () => {
-  events.emit('basket:changed');
+  events.emit('basket:action');
+}});
+const orderForm = new OrderForm(events, orderContainer, {onSubmit: () => {
+  events.emit('order:submit');
+}});
+const contactsForm = new ContactsForm(contactsContainer, events, {onSubmit: () => {
+  events.emit('contacts:submit');
 }})
 
 /* Презентер */
+
+//событие: закрытие модалки
+events.on('modal:close', () => {
+  modal.close();
+});
 
 //событие: изменение каталога товаров
 events.on('catalog:changed', () => {
@@ -100,7 +109,7 @@ events.on<{id: string}>('card:select', ({id}) => {
   }
 })
 
-//событие: изменение выбранного для просмотра товаров
+//событие: изменение выбранного для просмотра товара
 events.on('preview:changed', () => {
   const product = productsModel.getSelectedProduct();
   
@@ -133,53 +142,105 @@ events.on('preview:changed', () => {
   }
 })
 
-//событие: закрытие модалки
-events.on('modal:close', () => {
-  modal.close();
+//событие: изменение содержимого корзины
+events.on('basket:changed', () => {
+  const basketProducts = cartModel.getCart();
+  
+  const basketList = basketProducts.map((product, index) => {
+    const card = new CardBasket(cloneTemplate(cardBasketTemplate), {onClick: () => {
+      events.emit('basket:item-delete', product);
+    }});
+
+    return card.render({
+      title: product.title,
+      price: product.price,
+      index: index + 1,
+    });
+  });
+  
+  const fullPrice = cartModel.getFullPrice();
+  const isEmpty = basketProducts.length === 0;
+  const isAvailable = !isEmpty && fullPrice > 0;
+  const buttonState = !isAvailable;
+
+  const count = cartModel.getProductsQuantity();
+
+  basket.render({
+    fullPrice,
+    buttonState,
+    basketList,
+  });
+
+  header.counter = count;
+
+});
+
+//событие: изменение данных покупателя
+events.on<{ field?: keyof ICustomer } | Partial<ICustomer>>('customer:changed', (data) => {
+  const customerData = customerModel.getData();
+  const errors = customerModel.validateData();
+
+  const updatedField = data 
+      ? ('field' in data ? data.field : (Object.keys(data)[0] as keyof ICustomer))
+      : undefined;
+
+  if (!updatedField || ['payment', 'address'].includes(updatedField)){
+    const isOrderValid = !errors.payment && !errors.address;
+    const orderErrorMessages = [errors.payment, errors.address]
+      .filter(Boolean)
+      .join(', ');
+
+    orderForm.render({
+      valid: isOrderValid,
+      errorText: orderErrorMessages ? `Необходимо указать: ${orderErrorMessages}` : '',
+      payment: customerData.payment,
+      address: customerData.address,
+    });
+  };
+
+  if(!updatedField || ['email', 'phone'].includes(updatedField)){
+    const isContactsValid = !errors.email && !errors.phone;
+    const contactsErrorMessages = [errors.email, errors.phone]
+      .filter(Boolean)
+      .join(', ');
+
+    contactsForm.render({
+      valid: isContactsValid,
+      errorText: contactsErrorMessages ? `Необходимо указать: ${contactsErrorMessages}` : '',
+      email: customerData.email,
+      phone: customerData.phone,
+    });
+  };
+});
+
+//событие: нажатие кнопки покупки товара
+events.on('basket:action', () => {
+  const selectedProduct = productsModel.getSelectedProduct();
+  if (selectedProduct) {
+    if (cartModel.checkProductById(selectedProduct.id)) {
+      cartModel.deleteProduct(selectedProduct);
+      cardPreview.buttonText = 'В корзину';
+    } else {
+      cartModel.saveProduct(selectedProduct);
+      cardPreview.buttonText = 'Удалить из корзины';
+    }
+  } else {
+    console.error('Не найден выбранный товар');
+  }
+});
+
+//событие: нажатие кнопки удаления товара из корзины
+events.on<IProduct>('basket:item-delete', (product) => {
+  cartModel.deleteProduct(product);
 });
 
 //событие: нажатие кнопки открытия корзины
 events.on('basket:open', () => {
   modal.open();
   modal.render({
-    content: basket.render()
+    content: basket.render(),
   })
-}) 
-
-//событие: изменение содержимого корзины
-events.on('basket:changed', () => {
-  const products = cartModel.getCart();
-  const total = cartModel.getFullPrice();
-  const quantity = cartModel.getProductsQuantity();
-  const isEmpty = quantity === 0;
-  const availableToOrder = !isEmpty && total > 0;
-
-  const basketList = products.map((product, index) => {
-    const card = new CardBasket(cloneTemplate(cardBasketTemplate), {onClick: () => {
-      events.emit('basket:delete', {id: product.id});
-    }});
-
-    return card.render({
-      title: product.title,
-      price: product.price,
-      index: index + 1
-    });
-  });
-
-  basket.render({
-    basketList: basketList,
-    fullPrice: total,
-    buttonState: !availableToOrder
-  });
-
-  header.counter = quantity;
 })
-
-//событие: изменение данных покупателя
-events.on<Partial<ICustomer>>("customer:changed", (data) => {
-  customerModel.saveData(data);
-});
-
 
 //получение товаров с сервера
 appApi.getProducts().then((data) => {
