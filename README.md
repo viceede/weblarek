@@ -196,7 +196,7 @@ Presenter - презентер содержит основную логику п
 Слой представления
 -
 <div align="center">
-  <img src="./public/header_gallery_view.png" alt="Диаграмма классов и интерфейсов Header, Gallery " height="250">
+  <img src="./public/header_gallery_view.png" alt="Диаграмма классов и интерфейсов Header, Gallery " height="350">
 </div>
 
 ###  **Класс `Header`**
