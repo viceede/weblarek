@@ -233,7 +233,7 @@ constructor(protected  events: IEvents, container: HTMLElement)
 
 -   **`set counter(value: number)`**
     
-    Устанавливает новое текстовое значение в элемент счетчика `counterElement`.
+      -  Устанавливает новое текстовое значение в элемент счетчика `counterElement`.
     
       
     
@@ -270,5 +270,4 @@ constructor(container: HTMLElement)
 ### Сеттеры
 
 -   **`set catalog(items: HTMLElement[])`**
--   
-    Принимает массив элементов `items` и добавляет их в элемент `catalogElement` с помощью метода `.replaceChildren()`.
+    -   Принимает массив элементов `items` и добавляет их в элемент `catalogElement` с помощью метода `.replaceChildren()`.
