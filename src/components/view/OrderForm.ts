@@ -33,10 +33,9 @@ export class OrderForm extends Form<IOrderForm> {
   }
 
   selectPayment(name: TPayment | null) {
-    this.paymentButtons.forEach((button) => {
-      if(button.name === name) {
-        button.classList.replace('button_alt', 'button_alt-active');
-      }
+    const buttons = this.paymentButtons;
+    buttons.forEach((button) => {
+      button.classList.toggle('button_alt-active', button.name === name);
     })
   }
 

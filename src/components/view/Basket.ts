@@ -20,7 +20,7 @@ export class Basket extends Component<IBasket> {
     this.fullPriceElement = ensureElement<HTMLSpanElement>('.basket__price', this.container);
 
     this.orderButton.addEventListener('click', () => {
-      this.events.emit('basket:makeOrder');
+      this.events.emit('order:open');
     });
   }
 

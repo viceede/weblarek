@@ -1,5 +1,3 @@
-//TODO: Дописать презентер
-
 /* Импорты, создание переменных и экземпляров классов */
 
 //импортирование стилей
@@ -29,7 +27,7 @@ import { CardCatalog } from './components/view/CardCatalog.ts';
 import { CardPreview } from './components/view/CardPreview.ts';
 import { ContactsForm } from './components/view/ContactsForm.ts';
 import { OrderForm } from './components/view/OrderForm.ts';
-import { ICustomer, IProduct } from './types/index.ts'
+import { ICustomer, IOrder, IProduct, TPayment } from './types/index.ts'
 
 //Инициализация брокера событий
 const events = new EventEmitter();
@@ -236,18 +234,95 @@ events.on<IProduct>('basket:item-delete', (product) => {
 
 //событие: нажатие кнопки открытия корзины
 events.on('basket:open', () => {
+  const basketProducts = cartModel.getCart();
+  const fullPrice = cartModel.getFullPrice();
+  const isEmpty = basketProducts.length === 0;
+  const isAvailable = !isEmpty && fullPrice > 0;
+  const buttonState = !isAvailable; 
+  
   modal.open();
   modal.render({
-    content: basket.render(),
+    content: basket.render({
+      buttonState,
+      fullPrice
+    })
   })
+})
+
+//события на изменение данных в формах
+events.on<{field: string, value: TPayment}>('order.payment:change', (data) => {
+  customerModel.saveData({payment: data.value});
+});
+
+events.on<{field: string, value: string}>('order.address:change', (data) => {
+  customerModel.saveData({address: data.value});
+});
+
+events.on<{field: string, value: string}>('contacts.email:change', (data) => {
+  customerModel.saveData({email: data.value});
+});
+
+events.on<{field: string, value: string}>('contacts.phone:change', (data) => {
+  customerModel.saveData({phone: data.value});
+});
+
+//событие: нажатие кнопки оформления заказа
+events.on('order:open', () => {
+  modal.render({
+    content: orderForm.render(),
+  })
+})
+
+//событие: нажатие кнопки перехода ко второй форме оформления заказа
+events.on('order:submit', () => {
+  modal.render({
+    content: contactsForm.render(),
+  });
+});
+
+//событие: нажатие кнопки оплаты/завершения оформления заказа
+events.on('contacts:submit', () => {
+  const cart = cartModel.getCart();
+  const data = customerModel.getData();
+  const items = cart.map((product) => {
+    return product.id;
+  })
+  const total = cartModel.getFullPrice();
+
+  const newOrder: IOrder = {
+    payment: data.payment,
+    address: data.address,
+    email: data.email,
+    phone: data.phone,
+    total,
+    items
+  }
+  
+  appApi.createOrder(newOrder).then((data) => {
+    console.log('Заказ оформлен. Ответ от сервера: \n', data);
+    modal.render({
+      content: success.render({
+        total: data.total,
+      })
+    });
+    cartModel.clearCart();
+  })
+  .catch((err) => {
+    console.log('Ошибка при оформлении заказа: \n', err);
+  })
+})
+
+//событие: нажатие кнопки закрытия модалки об успешном оформлении заказа
+events.on('success-modal:close', () => {
+  modal.close();
 })
 
 //получение товаров с сервера
 appApi.getProducts().then((data) => {
-  console.log('Ответ от сервера: ', data);
+  console.log('Ответ от сервера: \n', data);
   productsModel.saveProducts(data.items);
-  console.log('Сохраненный в модели каталог: ', productsModel.getProducts())
+  console.log('Сохраненный в модели каталог: \n', productsModel.getProducts())
 })
 .catch((err) => {
-  console.log('Ошибка при загрузке каталога с сервера: ', err);
+  console.log('Ошибка при загрузке каталога с сервера: \n', err);
 })
