@@ -238,7 +238,7 @@ constructor(protected  events: IEvents, container: HTMLElement)
       
     
 
-## 2. Класс `Gallery`
+### 2. Класс `Gallery`
 
 Класс отвечает за отображение каталога карточек/товаров в виде галереи.
 
