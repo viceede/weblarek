@@ -271,4 +271,4 @@ constructor(container: HTMLElement)
 
 -   **`set catalog(items: HTMLElement[])`**
 -   
-    Принимает массив элементов `items` и последовательно добавляет их в конец `catalogElement` с помощью метода `.append()`.
+    Принимает массив элементов `items` и добавляет их в элемент `catalogElement` с помощью метода `.replaceChildren()`.
