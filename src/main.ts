@@ -27,6 +27,7 @@ import { CardCatalog } from './components/view/CardCatalog.ts';
 import { CardPreview } from './components/view/CardPreview.ts';
 import { ContactsForm } from './components/view/ContactsForm.ts';
 import { OrderForm } from './components/view/OrderForm.ts';
+//импортирование интерфейсов для типизации
 import { ICustomer, IOrder, IProduct, TPayment } from './types/index.ts'
 
 //Инициализация брокера событий
