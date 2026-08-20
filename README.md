@@ -449,3 +449,163 @@ constructor(container: HTMLElement)
     
       
     -   `index(value: number)` — задает порядковый номер позиций.
+
+
+<div align="center">
+  <img src="./public/form_classes.png" alt="Диаграмма классов и интерфейсов Form">
+</div>
+
+**Интерфейсы**
+
+  
+
+-   **IForm** — базовый интерфейс состояния формы.
+    
+      
+    -   `valid: boolean` — флаг валидности формы (управляет доступностью кнопки отправки).
+        
+          
+        
+    -   `errorText: string` — текст ошибки валидации для отображения пользователю.
+        
+          
+        
+-   **IFormActions** — интерфейс действий формы.
+    
+      
+    -   `onSubmit: () => void` — функция обратного вызова при отправке формы, исполняемая при срабатывании обработчика события.
+        
+          
+        
+-   **IOrderForm** — данные формы оформления заказа.
+    
+      
+    -   `payment: TPayment | null` — выбранный способ оплаты (`card` или `cash`).
+        
+          
+        
+    -   `address: string` — адрес доставки.
+        
+          
+        
+-   **IContactsForm** — данные формы контактной информации.
+    
+      
+    -   `email: string` — адрес электронной почты.
+        
+          
+        
+    -   `phone: string` — номер телефона.
+        
+          
+        
+
+**Классы**
+
+  
+
+**Form<T>**
+
+Базовый класс формы, наследующий `Component<IForm & T>`. Отвечает за обработку ввода, валидацию и отправку.
+
+  
+
+-   **Поля:**
+    
+      
+    -   `submitButton: HTMLButtonElement` — кнопка отправки формы (`button[type="submit"]`).
+        
+          
+        
+    -   `errorElement: HTMLElement` — элемент для вывода ошибок (`.form__errors`).
+        
+          
+        
+-   **Конструктор:** `constructor(events: IEvents, container: HTMLFormElement, actions: IFormActions)` — находит элементы, отслеживает событие `input` для отправки изменений через событие `${formName}.${field}:change`, и блокирует стандартное поведение формы при `submit`, вызывая `actions.onSubmit`.
+    
+      
+    
+-   **Сеттеры:**
+    
+      
+    -   `errorText(value: string)` — выводит текст ошибки в `errorElement`.
+        
+          
+        
+    -   `valid(value: boolean)` — переключает активность кнопки отправки (`submitButton.disabled = !value`).
+        
+          
+        
+-   **Методы:**
+    
+      
+    -   `clearError(): void` — очищает текст ошибки.
+        
+          
+        
+
+**OrderForm**
+
+Класс формы выбора способа оплаты и ввода адреса. Наследует `Form<IOrderForm>`.
+
+  
+
+-   **Поля:**
+    
+      
+    -   `addressInput: HTMLInputElement` — поле ввода адреса (`input[name="address"]`).
+        
+          
+        
+    -   `paymentButtons: HTMLButtonElement[]` — кнопки выбора способа оплаты (`.button_alt`).
+        
+          
+        
+-   **Конструктор:** `constructor(events: IEvents, container: HTMLFormElement, actions: IFormActions)` — инициализирует элементы и вешает обработчик клика на кнопки оплаты, вызывающий событие `order.payment:change`.
+    
+      
+    
+-   **Сеттеры:**
+    
+      
+    -   `address(value: string)` — устанавливает значение поля ввода адреса.
+        
+          
+        
+-   **Методы:**
+    
+      
+    -   `selectPayment(name: TPayment | null): void` — подсветка активной кнопки оплаты с помощью переключения CSS-класса `button_alt-active`.
+        
+          
+        
+
+**ContactsForm**
+
+Класс формы ввода контактных данных (email и телефон). Наследует `Form<IContactsForm>`.
+
+  
+
+-   **Поля:**
+    
+      
+    -   `emailInput: HTMLInputElement` — поле ввода email (`input[name="email"]`).
+        
+          
+        
+    -   `phoneInput: HTMLInputElement` — поле ввода телефона (`input[name="phone"]`).
+        
+          
+        
+-   **Конструктор:** `constructor(container: HTMLFormElement, events: IEvents, actions: IFormActions)` — находит инпуты почты и телефона, передавая зависимости в базовый класс.
+    
+      
+    
+-   **Сеттеры:**
+    
+      
+    -   `email(value: string)` — устанавливает значение в поле email.
+        
+          
+        
+    -   `phone(value: string)` — устанавливает значение в поле телефона.
