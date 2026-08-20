@@ -307,6 +307,7 @@ events.on('contacts:submit', () => {
       })
     });
     cartModel.clearCart();
+    customerModel.clearData();
   })
   .catch((err) => {
     console.log('Ошибка при оформлении заказа: \n', err);
