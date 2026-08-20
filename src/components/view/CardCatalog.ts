@@ -2,13 +2,9 @@ import { categoryMap } from '../../utils/constants'
 import { ensureElement } from '../../utils/utils';
 import { Card } from './Card';
 import { ICardActions } from '../../types';
+import { ICardCatalog } from '../../types';
 
 type CategoryKey = keyof typeof categoryMap;
-
-interface ICardCatalog {
-  category: string;
-  image: string;
-}
 
 export class CardCatalog extends Card<ICardCatalog> {
   protected categoryElement: HTMLSpanElement;

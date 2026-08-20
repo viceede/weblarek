@@ -1,12 +1,8 @@
 import { Component } from '../base/Component';
 import { ensureElement } from '../../utils/utils';
 import { IEvents } from '../base/Events';
+import { IBasket } from '../../types';
 
-interface IBasket {
-  fullPrice: number;
-  buttonState: boolean;
-  basketList: HTMLElement[];
-}
 
 export class Basket extends Component<IBasket> {
   private basketListElement: HTMLUListElement;

@@ -3,11 +3,8 @@ import { Form } from './Form';
 import { IEvents } from '../base/Events';
 import { IFormActions } from '../../types'
 import { TPayment } from '../../types';
+import { IOrderForm } from '../../types';
 
-interface IOrderForm {
-  payment: TPayment | null;
-  address: string;
-}
 
 export class OrderForm extends Form<IOrderForm> {
   protected addressInput: HTMLInputElement;

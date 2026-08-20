@@ -2,11 +2,7 @@ import { Component } from '../base/Component';
 import { ensureElement } from '../../utils/utils';
 import { IEvents } from '../base/Events';
 import { IFormActions } from '../../types';
-
-export interface IForm {
-  valid: boolean;
-  errorText: string;
-}
+import { IForm } from '../../types';
 
 export class Form<T> extends Component<IForm & T> {
   protected submitButton: HTMLButtonElement;

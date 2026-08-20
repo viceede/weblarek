@@ -45,3 +45,62 @@ export interface ICardActions {
 export interface IFormActions {
     onSubmit: () => void;
 }
+
+export interface IBasket {
+  fullPrice: number;
+  buttonState: boolean;
+  basketList: HTMLElement[];
+}
+
+export interface ICard {
+  title: string;
+  price: number | null;
+}
+
+export interface ICardBasket {
+  index: number;
+}
+
+export interface ICardCatalog {
+  category: string;
+  image: string;
+}
+
+export interface ICardPreview {
+  category: string;
+  image: string;
+  description: string;
+  buttonText: string,
+  buttonDisabled: boolean
+}
+
+export interface IContactsForm {
+  email: string;
+  phone: string;
+}
+
+export interface IForm {
+  valid: boolean;
+  errorText: string;
+}
+
+export interface IGallery {
+  catalog: HTMLElement[];
+}
+
+export interface IHeader {
+  counter: number;
+}
+
+export interface IModal {
+  content: HTMLElement;
+}
+
+export interface IOrderForm {
+  payment: TPayment | null;
+  address: string;
+}
+
+export interface ISuccess {
+  total: number;
+}

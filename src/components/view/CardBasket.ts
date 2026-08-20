@@ -1,10 +1,8 @@
 import { Card } from './Card';
 import { ensureElement } from '../../utils/utils';
 import { ICardActions } from '../../types';
+import { ICardBasket } from '../../types';
 
-interface ICardBasket {
-  index: number;
-}
 
 export class CardBasket extends Card<ICardBasket> {
   protected deleteButton: HTMLButtonElement;

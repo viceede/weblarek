@@ -2,14 +2,7 @@ import { Card } from './Card';
 import { ensureElement } from '../../utils/utils';
 import { categoryMap } from '../../utils/constants';
 import { ICardActions } from '../../types';
-
-interface ICardPreview {
-  category: string;
-  image: string;
-  description: string;
-  buttonText: string,
-  buttonDisabled: boolean
-}
+import { ICardPreview } from '../../types';
 
 type CategoryKey = keyof typeof categoryMap;
 
