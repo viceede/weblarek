@@ -609,3 +609,153 @@ constructor(container: HTMLElement)
           
         
     -   `phone(value: string)` — устанавливает значение в поле телефона.
+
+
+<div align="center">
+  <img src="./public/basket_modal_success_classes.drawio.png" alt="Диаграмма классов и интерфейсов Basket, Modal, Success">
+</div>
+
+**Интерфейсы**
+
+  
+
+-   **IBasket** — данные для отображения корзины покупок.
+    
+      
+    -   `fullPrice: number` — общая стоимость товаров в корзине.
+        
+          
+        
+    -   `buttonState: boolean` — флаг блокировки кнопки оформления заказа.
+        
+          
+        
+    -   `basketList: HTMLElement[]` — список HTML-элементов товаров, помещенных в корзину.
+        
+          
+        
+-   **IModal** — данные для наполнения модального окна.
+    
+      
+    -   `content: HTMLElement` — HTML-элемент контента, отображаемый внутри окна.
+        
+          
+        
+-   **ISuccess** — данные для окна успешного оформления заказа.
+    
+      
+    -   `total: number` — итоговая сумма списанных средств (синапсов).
+        
+          
+        
+
+**Классы**
+
+  
+
+**Basket**
+
+Класс компонента корзины. Наследует `Component<IBasket>`.
+
+  
+
+-   **Поля:**
+    
+      
+    -   `basketListElement: HTMLUListElement` — элемент-список товаров (`.basket__list`).
+        
+          
+        
+    -   `orderButton: HTMLButtonElement` — кнопка перехода к оформлению (`.basket__button`).
+        
+          
+        
+    -   `fullPriceElement: HTMLSpanElement` — элемент отображения итоговой цены (`.basket__price`).
+        
+          
+        
+-   **Конструктор:** `constructor(container: HTMLElement, events: IEvents)` — находит элементы интерфейса и подписывает `orderButton` на клик для вызова события `order:open`.
+    
+      
+    
+-   **Сеттеры:**
+    
+      
+    -   `fullPrice(value: number)` — устанавливает итоговую стоимость в формате «X синапсов».
+        
+          
+        
+    -   `basketList(items: HTMLElement[])` — заменяет текущий список товаров в корзине новыми элементами.
+        
+          
+        
+    -   `buttonState(state: boolean)` — управляет доступностью кнопки оформления заказа (`disabled = state`).
+        
+          
+        
+
+**Modal**
+
+Универсальный класс управляемого модального окна. Наследует `Component<IModal>`.
+
+  
+
+-   **Поля:**
+    
+      
+    -   `closeButton: HTMLButtonElement` — кнопка закрытия окна (`.modal__close`).
+        
+          
+        
+    -   `modalContent: HTMLElement` — контейнер динамического содержимого (`.modal__content`).
+        
+          
+        
+-   **Конструктор:** `constructor(container: HTMLElement, events: IEvents)` — находит внутренние элементы, подписывает клик по кнопке закрытия и клик по оверлею (фон) на генерацию события `modal:close`.
+    
+      
+    
+-   **Сеттеры:**
+    
+      
+    -   `content(value: HTMLElement)` — помещает переданный HTML-элемент внутрь контейнера `modalContent`.
+        
+          
+        
+-   **Методы:**
+    
+      
+    -   `open(): void` — открывает модальное окно (добавляет CSS-класс `modal_active`).
+        
+          
+        
+    -   `close(): void` — закрывает окно (снимает CSS-класс `modal_active` и очищает дочернее содержимое).
+        
+          
+        
+
+**Success**
+
+Класс модального окна успешного завершения покупки. Наследует `Component<ISuccess>`.
+
+  
+
+-   **Поля:**
+    
+      
+    -   `closeButton: HTMLButtonElement` — кнопка завершения/закрытия (`.order-success__close`).
+        
+          
+        
+    -   `totalElement: HTMLElement` — элемент описания списанной суммы (`.order-success__description`).
+        
+          
+        
+-   **Конструктор:** `constructor(events: IEvents, container: HTMLElement)` — находит элементы и при клике на `closeButton` инициирует событие `success-modal:close`.
+    
+      
+    
+-   **Сеттеры:**
+    
+      
+    -   `total(value: number)` — устанавливает текст подтверждения списания («Списано X синапсов»).
