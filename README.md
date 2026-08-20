@@ -275,7 +275,7 @@ constructor(container: HTMLElement)
 
 
 <div align="center">
-  <img src="./public/card_classes.png" alt="Диаграмма классов и интерфейсов Card " height="350">
+  <img src="./public/card_classes.png" alt="Диаграмма классов и интерфейсов Card " height="450">
 </div>
 
 **Интерфейсы**
