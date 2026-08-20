@@ -271,3 +271,181 @@ constructor(container: HTMLElement)
 
 -   **`set catalog(items: HTMLElement[])`**
     -   Принимает массив элементов `items` и добавляет их в элемент `catalogElement` с помощью метода `.replaceChildren()`.
+
+
+
+<div align="center">
+  <img src="./public/header_gallery_view.png" alt="Диаграмма классов и интерфейсов Header, Gallery " height="350">
+</div>
+
+**Интерфейсы**
+-   **ICard** — базовый интерфейс данных карточки.
+    -   `title: string` — заголовок/название товара.
+        
+          
+        
+    -   `price: number | null` — цена товара (`null` используется для бесценных товаров).
+        
+          
+        
+-   **ICardCatalog** — расширение данных для карточки в каталоге.
+    
+      
+    -   `category: string` — категория товара.
+        
+          
+        
+    -   `image: string` — изображение товара.
+        
+          
+        
+-   **ICardPreview** — расширение данных для карточки предпросмотра (в модальном окне).
+    
+      
+    -   `category: string` — категория товара.
+        
+          
+        
+    -   `image: string` — изображение товара.
+        
+          
+        
+    -   `description: string` — описание товара.
+        
+          
+        
+    -   `buttonText: string` — текст на кнопке действия (например, «В корзину»).
+        
+          
+        
+    -   `buttonDisabled: boolean` — флаг блокировки кнопки.
+        
+          
+        
+-   **ICardBasket** — расширение данных для карточки в корзине.
+    
+      
+    -   `index: number` — порядковый номер товара в списке.
+        
+          
+        
+-   **ICardActions** — интерфейс для передачи пользовательских событий.
+    
+      
+    -   `onClick: () => void` — функция обратного вызова при клике на элемент, исполняющаяся при срабатывании события.
+        
+          
+        
+
+**Классы**
+
+  
+
+**Card<T>**
+
+Базовый класс карточки, наследующий `Component<ICard & T>`.
+
+  
+
+-   **Поля:** `cardTitle` (заголовок), `cardPrice` (цена).
+    
+      
+    
+-   **Конструктор:** `constructor(container: HTMLElement)` — находит элементы заголовка и цены.
+    
+      
+    
+-   **Сеттеры:**
+    
+      
+    -   `title(value: string)` — устанавливает текст заголовка.
+        
+          
+        
+    -   `price(value: number)` — выводит цену в синапсах или текст «Бесценно» при отсутствии значения.
+        
+          
+        
+
+**CardCatalog**
+
+Класс для карточек в главном каталоге. Наследует `Card<ICardCatalog>`.
+
+  
+
+-   **Поля:** `categoryElement` (элемент категории), `imageElement` (картинка).
+    
+      
+    
+-   **Конструктор:** `constructor(container: HTMLElement, actions?: ICardActions)` — находит элементы и вешает событие `onClick` на всю карточку.
+    
+      
+    
+-   **Сеттеры:**
+    
+      
+    -   `category(value: string)` — задает текст категории и переключает CSS-классы по `categoryMap`.
+        
+          
+        
+    -   `image(value: string)` — подгружает изображение товара.
+        
+          
+        
+
+**CardPreview**
+
+Класс для детального просмотра карточки в модальном окне. Наследует `Card<ICardPreview>`.
+
+  
+
+-   **Поля:** `categoryElement`, `imageElement`, `descriptionElement` (описание), `buyButton` (кнопка действия).
+    
+      
+    
+-   **Конструктор:** `constructor(container: HTMLElement, actions?: ICardActions)` — инициализирует элементы и связывает `onClick` с кнопкой действия.
+    
+      
+    
+-   **Сеттеры:**
+    
+      
+    -   `category(value: string)` — задает категорию и её CSS-стиль.
+        
+          
+        
+    -   `image(value: string)` — устанавливает изображение.
+        
+          
+        
+    -   `description(value: string)` — устанавливает текст описания.
+        
+          
+        
+    -   `buttonText(value: string)` — меняет надпись на кнопке.
+        
+          
+        
+    -   `buttonDisabled(value: boolean)` — блокирует или разблокирует кнопку.
+        
+          
+        
+
+**CardBasket**
+
+Класс для компактной карточки товара в корзине. Наследует `Card<ICardBasket>`.
+
+  
+
+-   **Поля:** `indexElement` (номер в списке), `deleteButton` (кнопка удаления).
+    
+      
+    
+-   **Конструктор:** `constructor(container: HTMLElement, actions?: ICardActions)` — инициализирует элементы и навешивает `onClick` на кнопку удаления.
+    
+      
+    
+-   **Сеттеры:**
+    
+      
+    -   `index(value: number)` — задает порядковый номер позиций.
